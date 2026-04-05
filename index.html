@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Religious Values Benchmark Meta-Evaluation Dashboard</title>
+<title>Religious Values Benchmark: Cross-Vendor Meta-Evaluation Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
@@ -467,17 +467,20 @@ table.dark-table tr:hover td {
 <body>
 
 <div class="header">
-    <h1>Religious Values Benchmark Meta-Evaluation</h1>
-    <div class="subtitle">What Do Religious AI Benchmarks Actually Measure?  |  Dashboard v3  |  2026-04-04  |  12-Member Expert Council Review</div>
+    <h1>Religious Values Benchmark: Cross-Vendor Meta-Evaluation</h1>
+    <div class="subtitle">9 Models &times; 3 Vendors  |  Dashboard v4  |  2026-04-05  |  12-Member Expert Council Review</div>
 </div>
 <div class="exec-summary">
     This dashboard presents a systematic meta-evaluation of <strong>401 religious AI benchmark candidates</strong>
-    across <strong>14 religious traditions</strong>, of which 47 pass quality gates. A 12-member expert council
-    analyzed the results, including <strong>cross-vendor LLM replication</strong> across 9 models from Anthropic,
-    OpenAI, and Google. Key findings: the benchmark ecosystem is dominated by Islam (59.6% of gate-passers) due to
-    Arabic NLP infrastructure; 8 traditions have zero viable benchmarks; most benchmarks test factual recall, not
-    values reasoning (mean A3 = 33.6/100); and the only instrument that discriminates across vendors is a
-    domain-specific Arabic MCQ (6.7%&ndash;100% accuracy range). Navigate the six tabs below to explore each finding.
+    across <strong>14 religious traditions</strong>, validated across <strong>9 large language models from
+    3 vendor families</strong> (Anthropic, OpenAI, Google Gemini). Of 401 candidates, 47 pass quality gates.
+    Cross-vendor replication reveals three distinct behavioral modes: Anthropic models produce elaborated
+    responses with near-perfect rubric scores, OpenAI models produce terse but accurate responses, and
+    Gemini models produce template-flat responses scoring near zero on content rubrics. The benchmark
+    ecosystem is dominated by Islam (59.6% of gate-passers) due to Arabic NLP infrastructure; 8 traditions
+    have zero viable benchmarks; most benchmarks test factual recall, not values reasoning (mean A3 = 33.6/100);
+    and the only instrument that discriminates across vendors is a domain-specific Arabic MCQ
+    (6.7%&ndash;100% accuracy range). Navigate the six tabs below to explore each finding.
 </div>
 
 <ul class="nav nav-tabs" id="mainTabs" role="tablist">
@@ -493,6 +496,7 @@ table.dark-table tr:hover td {
     <div class="key-findings">
         <h3>Key Findings at a Glance</h3>
         <ul>
+            <li><span class="kf-label">Multi-Vendor Validation:</span> 9 LLMs from 3 vendors tested; three behavioral modes identified &mdash; elaborated (Anthropic), terse-accurate (OpenAI), template-flat (Gemini) &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-crossvendor\']').click()">Cross-Vendor tab</a></li>
             <li><span class="kf-label">Tradition Asymmetry:</span> Islam holds 28/47 gate-passers (59.6%); 8 of 14 traditions have zero benchmarks &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-overview\']').click()">Overview tab</a></li>
             <li><span class="kf-label">Infrastructure, Not Theology:</span> Publication infrastructure predicts benchmark existence (r = 0.74, p = 0.003); formalizability does not (p = 0.14) &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-void\']').click()">Tradition Void tab</a></li>
             <li><span class="kf-label">Values Gap:</span> Mean values alignment score is 33.6/100; only 12% of benchmarks genuinely test religious values reasoning &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-values\']').click()">Values Relevance tab</a></li>
@@ -573,6 +577,83 @@ table.dark-table tr:hover td {
             </div>
         </div>
     </div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card-stat">
+                <div class="number">9</div>
+                <div class="label">LLMs Validated</div>
+                <div class="description">Cross-vendor replication across 3 model families</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-stat">
+                <div class="number">3</div>
+                <div class="label">Vendor Families</div>
+                <div class="description">Anthropic, OpenAI, Google Gemini</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-stat">
+                <div class="number" style="color:var(--accent-orange)">7%–100%</div>
+                <div class="label">T2 Accuracy Spread</div>
+                <div class="description">Arabic MCQ: only cross-vendor discriminator</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-stat">
+                <div class="number">4/9</div>
+                <div class="label">K&lt;R&lt;V Gradient</div>
+                <div class="description">Response length gradient is vendor-specific, not universal</div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="chart-container">
+                <div class="chart-title">Vendor Comparison Summary</div>
+                <table class="dark-table" style="font-size:0.82rem;">
+                    <thead>
+                        <tr><th>Vendor</th><th>Models</th><th>Mean Rubric</th><th>T2 Accuracy</th><th>K&lt;R&lt;V Gradient</th></tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td style="color:#4C78A8"><strong>Anthropic</strong></td>
+                            <td>3</td>
+                            <td>0.99</td>
+                            <td>92.2% (77–100%)</td>
+                            <td><span class="badge-active">YES</span></td>
+                        </tr>
+                        <tr>
+                            <td style="color:#E45756"><strong>Gemini</strong></td>
+                            <td>4</td>
+                            <td>0.02</td>
+                            <td>11.7% (7–20%)</td>
+                            <td><span class="badge-void">NO</span></td>
+                        </tr>
+                        <tr>
+                            <td style="color:#F58518"><strong>OpenAI</strong></td>
+                            <td>2</td>
+                            <td>0.92</td>
+                            <td>93.3% (87–100%)</td>
+                            <td><span class="badge-void">NO</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+<div class="chart-annotation">
+  <strong>Cross-vendor validation scope:</strong> The benchmarks identified through this screening
+  pipeline were validated across <strong>9 LLMs from 3 vendor families</strong> (Anthropic, OpenAI,
+  Google Gemini). While the benchmark screening itself is model-agnostic — it evaluates benchmark
+  <em>design</em> rather than model <em>performance</em> — the cross-vendor LLM analysis (Tab 6)
+  confirms that benchmark discriminability varies dramatically by vendor: T2 Arabic MCQ accuracy
+  ranges from 6.7% to 100%, while rubric-based evaluation shows ceiling effects (Anthropic) and
+  floor effects (Gemini) that limit its cross-vendor utility. The vendor summary table below
+  provides headline comparisons; see the <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-crossvendor\']').click()">Cross-Vendor LLM tab</a> for detailed analysis.
+</div>
     <div class="row g-3">
         <div class="col-md-6">
             <div class="chart-container">
@@ -1034,6 +1115,79 @@ table.dark-table tr:hover td {
         </div>
     </div>
     <div id="claim-cards"></div>
+    <div class="chart-container" style="margin-top:20px">
+        <div class="chart-title">Cross-Vendor Claim Validation</div>
+        <table class="dark-table" style="font-size:0.82rem;">
+            <thead>
+                <tr><th>Claim</th><th>Statistical Result</th><th>Cross-Vendor Status</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                
+                        <tr>
+                            <td><strong>C1</strong></td>
+                            <td>p < 0.001</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C2</strong></td>
+                            <td>p = 0.0015</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C3</strong></td>
+                            <td>p < 0.001</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C4</strong></td>
+                            <td>p = 1.0000</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C5</strong></td>
+                            <td>p = 0.1215</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C6</strong></td>
+                            <td>p = 0.0904</td>
+                            <td style="color:#8b949e">Model-agnostic (benchmark property)</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Applies regardless of which LLM is used</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C7</strong></td>
+                            <td>p = 0.6776</td>
+                            <td style="color:#54A24B">Supported: 3/5 non-degenerate models show r < 0.30</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Sonnet r=0.288; GPT-Codex r=0.296; Codex-Mini r=0.076</td>
+                        </tr>
+                        <tr>
+                            <td><strong>K<R<V</strong></td>
+                            <td>4/9 models</td>
+                            <td style="color:#F58518">Vendor-specific: universal in Claude, partial in Codex, absent in Gemini</td>
+                            <td style="font-size:0.78rem; color:var(--text-secondary)">Anthropic: 3/3, OpenAI: 1/2, Gemini: 0/4</td>
+                        </tr>
+            </tbody>
+        </table>
+    </div>
+    
+<div class="chart-annotation">
+  <strong>Cross-vendor claim validation:</strong> Six of seven claims concern benchmark properties
+  (tradition distribution, construct composition, data availability) that hold regardless of which
+  LLM is used for evaluation. These are marked "Model-agnostic" — their evidence comes from the
+  benchmark screening pipeline, not from model responses. Claim 7 (Bias-Values Conflation) is the
+  exception: it was originally tested via binomial proportion test (not significant at p = 0.05), but
+  <strong>cross-vendor correlation analysis provides stronger evidence</strong>. Models with low
+  bias-values correlation (r &lt; 0.30) demonstrate that bias detection and values reasoning are
+  genuinely distinct constructs, not artifacts of a single model's architecture. The K &lt; R &lt; V
+  gradient row is not a formal paper claim but is included because it is the most vivid cross-vendor
+  finding — its vendor-specificity is itself an important result.
+</div>
+<div class="cross-ref">See also: <a onclick="document.querySelector('[href=\'#tab-crossvendor\']').click()">Cross-Vendor LLM</a> for full model-level analysis &bull; <a onclick="document.querySelector('[href=\'#tab-sensitivity\']').click()">Sensitivity</a> for ranking robustness</div>
     
 <div class="chart-annotation" style="margin-top:12px">
   <strong>Interpreting non-significant results:</strong> The three unsupported claims (Field Recency,
@@ -1081,11 +1235,12 @@ table.dark-table tr:hover td {
   and T2 Arabic MCQ (30 items) perform when administered to <strong>9 large language models across
   3 vendor families</strong>: Anthropic (Opus, Sonnet, Haiku), OpenAI (GPT-Codex, Codex-Mini),
   and Google (Gemini 2.5 Flash-Lite, 2.5 Flash, 2.5 Pro, 3.1 Pro). The analysis reveals three
-  fundamentally different behavioral modes: Claude models produce elaborated, gradient-sensitive
-  responses with near-perfect rubric scores; Codex models produce terse but accurate responses;
-  and Gemini models produce flat, template-length responses scoring 0.0 on knowledge/reasoning/values
-  rubrics. These patterns have profound implications for how the field should design and validate
-  religious values benchmarks.
+  fundamentally different behavioral modes: <strong>Anthropic models</strong> produce elaborated,
+  gradient-sensitive responses with near-perfect rubric scores; <strong>OpenAI models</strong> produce
+  terse but accurate responses; and <strong>Gemini models</strong> produce flat, template-length responses
+  scoring 0.0 on knowledge/reasoning/values rubrics. These divergent patterns raise critical questions
+  about whether religious values benchmarks can claim cross-vendor validity, and how the field should
+  design instruments that discriminate meaningfully across model families.
 </div>
     <div class="row g-3 mb-4">
         <div class="col-md-3">
@@ -1145,8 +1300,8 @@ table.dark-table tr:hover td {
   the V/K ratio. X-axis labels are color-coded by vendor (blue = Anthropic, orange = OpenAI, red = Gemini).
   <br><br>
   <strong>Analysis:</strong> The K &lt; R &lt; V gradient — where Values items elicit longer responses
-  than Reasoning, which elicit longer than Knowledge — holds for all three <strong>Claude models</strong>
-  (V/K ratios: Opus 3.41&times;, Sonnet 3.59&times;, Haiku 9.18&times;). <strong>Codex models</strong>
+  than Reasoning, which elicit longer than Knowledge — holds for all three <strong>Anthropic models</strong>
+  (V/K ratios: Opus 3.41&times;, Sonnet 3.59&times;, Haiku 9.18&times;). <strong>OpenAI models</strong>
   show a partial pattern (R &asymp; V at 472 vs 461 chars for full Codex). All four <strong>Gemini
   models</strong> show no gradient (V/K ratios 1.03&ndash;1.60&times;), with nearly identical response
   lengths across all construct types. Note the log scale: the range spans 63 characters (Gemini
@@ -1154,13 +1309,15 @@ table.dark-table tr:hover td {
   <br><br>
   <strong>Interpretation:</strong> Response length serves as a proxy for cognitive engagement depth.
   Haiku's 9.18&times; V/K ratio — the steepest of any model — suggests values items impose
-  disproportionate demand on smaller models, requiring more extensive generation to achieve comparable
-  quality. However, the gradient may reflect Claude's RLHF calibration rather than universal cognitive
-  demand. Testing on open models like Llama or Mistral would clarify whether this is a general
-  property of LLMs or a vendor-specific training artifact.
+  disproportionate demand on smaller models. However, the gradient's absence in Gemini and partial
+  presence in OpenAI models indicates this pattern is vendor-specific rather than a universal property
+  of LLMs. Whether this reflects RLHF calibration differences, safety filtering policies, or genuine
+  cognitive demand variation remains an open question requiring testing on additional model families
+  (Llama, Mistral, Command R).
   <br><br>
-  <strong>Conclusion:</strong> The K &lt; R &lt; V gradient is a promising discriminator within the Claude
-  family but its absence in Gemini limits universality claims. Multi-vendor validation is essential.
+  <strong>Conclusion:</strong> The K &lt; R &lt; V gradient is a robust finding within the Anthropic
+  family but cannot be generalized across vendors. Its value as a construct validity indicator depends
+  on understanding why it emerges in some training regimes and not others.
 </div>
 
     <div class="row g-3 mb-4">
@@ -1204,6 +1361,15 @@ table.dark-table tr:hover td {
 </div>
 
     <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="chart-container">
+                <div class="chart-title">T2 Accuracy: Beginner vs Advanced Items</div>
+                <div id="chart-cv-t2-detail" style="height:380px"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
         <div class="col-md-6">
             <div class="chart-container">
                 <div class="chart-title">Vendor Capability Profiles</div>
@@ -1238,10 +1404,11 @@ table.dark-table tr:hover td {
   the T2 Arabic MCQ is the only benchmark component that provides genuine cross-vendor discrimination,
   with a 93.3 percentage-point spread from 6.7% to 100%. This suggests that domain-specific,
   non-English, reasoning-intensive MCQ items may be the future of religious values benchmarking.
-  <strong>Third</strong>, the K &lt; R &lt; V response length gradient is universal within the Claude
-  family but absent in Gemini, raising the question of whether this pattern reflects genuine cognitive
-  demand scaling or Claude-specific training characteristics. Multi-vendor validation is essential
-  before any benchmark can claim to measure religious values competency.
+  <strong>Third</strong>, the K &lt; R &lt; V response length gradient is vendor-specific rather than
+  universal: it holds across all Anthropic models, partially in OpenAI, and is absent in Gemini. This
+  pattern warrants investigation across additional model families before being adopted as a construct
+  validity indicator. Multi-vendor validation is essential before any benchmark can claim to measure
+  religious values competency.
 </div>
     
 <div class="finding-callout">
@@ -1271,7 +1438,7 @@ table.dark-table tr:hover td {
     <div class="footer-grid">
         <div>
             <h4>How to Cite</h4>
-            CEI Religious Values Benchmark Meta-Evaluation Dashboard (v3). Center for Ethical Innovation,
+            CEI Religious Values Benchmark Meta-Evaluation Dashboard (v4). Center for Ethical Innovation,
             2026. Available at: <a href="https://cjimmylin.github.io/cei-rv-dashboard/" style="color:var(--accent-blue)">cjimmylin.github.io/cei-rv-dashboard</a>.
             Based on the paper: "What Do Religious AI Benchmarks Actually Measure? A Systematic
             Meta-Evaluation of 401 Candidates Across 14 Traditions."
@@ -1295,7 +1462,7 @@ table.dark-table tr:hover td {
         </div>
     </div>
     <div style="margin-top:14px; padding-top:10px; border-top: 1px solid var(--border); font-size:0.72rem; text-align:center; color:var(--text-secondary)">
-        Dashboard generated 2026-04-04 &bull; Data: CEI-Lit-WS/RELIGIOUS-VALUES &bull;
+        Dashboard generated 2026-04-05 &bull; Data: CEI-Lit-WS/RELIGIOUS-VALUES &bull;
         Built with ECharts 5, Bootstrap 5.3, Inter font &bull;
         &copy; 2026 Center for Ethical Innovation
     </div>
@@ -1335,6 +1502,8 @@ const CV_T2 = {"slugs": ["Opus", "Sonnet", "Haiku", "GPT-Codex", "Codex-Mini", "
 const CV_VENDOR_RADAR = {"indicators": ["Rubric K", "Rubric R", "Rubric V", "T2 Accuracy", "Gradient"], "series": [{"name": "Anthropic", "values": [1.0, 1.0, 0.9777, 0.9223, 1.0]}, {"name": "Gemini", "values": [0.0, 0.0, 0.05, 0.1167, 0.0]}, {"name": "OpenAI", "values": [0.9667, 0.9167, 0.8834, 0.9334, 0.0]}]};
 
 const CV_BIAS_VALUES = {"slugs": ["Opus", "Sonnet", "Haiku", "GPT-Codex", "Codex-Mini", "Gem-FL", "Gem-Flash", "Gem-Pro", "Gem-3.1P"], "colors": ["#4C78A8", "#4C78A8", "#4C78A8", "#F58518", "#F58518", "#E45756", "#E45756", "#E45756", "#E45756"], "r_values": [0.706, 0.288, 0.701, 0.296, 0.076, 1.0, 1.0, 1.0, 1.0]};
+
+const CV_T2_DETAIL = {"slugs": ["Opus", "Sonnet", "Haiku", "GPT-Codex", "Codex-Mini", "Gem-FL", "Gem-Flash", "Gem-Pro", "Gem-3.1P"], "colors": ["#4C78A8", "#4C78A8", "#4C78A8", "#F58518", "#F58518", "#E45756", "#E45756", "#E45756", "#E45756"], "beginner": [100.0, 100.0, 80.0, 100.0, 80.0, 20.0, 6.7, 0.0, 13.3], "advanced": [100.0, 100.0, 73.3, 100.0, 93.3, 20.0, 13.3, 13.3, 6.7]};
 
 
 const FAMILY_COLORS = {
@@ -1885,6 +2054,68 @@ function renderCrossvendor() {
         }],
         grid: { left: 85, right: 30, top: 10, bottom: 35 },
         backgroundColor: 'transparent'
+    });
+
+    // --- T2 Beginner/Advanced breakdown ---
+    var t2dChart = echarts.init(document.getElementById('chart-cv-t2-detail'));
+    t2dChart.setOption({
+        tooltip: {
+            trigger: 'axis',
+            formatter: function(params) {
+                var s = '<strong>' + params[0].name + '</strong><br>';
+                params.forEach(function(p) {
+                    s += p.marker + ' ' + p.seriesName + ': ' + p.value + '%<br>';
+                });
+                return s;
+            }
+        },
+        legend: { data: ['Beginner', 'Advanced'], textStyle: { color: '#8b949e' }, top: 0 },
+        xAxis: {
+            type: 'category',
+            data: CV_T2_DETAIL.slugs,
+            axisLabel: {
+                color: function(val, idx) {
+                    if (idx < 3) return '#4C78A8';
+                    if (idx < 5) return '#F58518';
+                    return '#E45756';
+                },
+                rotate: 25, fontSize: 10
+            },
+            axisLine: { lineStyle: { color: '#30363d' } }
+        },
+        yAxis: {
+            type: 'value', max: 105, name: 'Accuracy (%)',
+            axisLabel: { color: '#8b949e' },
+            splitLine: { lineStyle: { color: '#21262d' } }
+        },
+        series: [
+            {
+                name: 'Beginner', type: 'bar',
+                data: CV_T2_DETAIL.beginner.map(function(v, i) {
+                    return { value: v, itemStyle: { color: CV_T2_DETAIL.colors[i], opacity: 0.7 } };
+                }),
+                barMaxWidth: 20
+            },
+            {
+                name: 'Advanced', type: 'bar',
+                data: CV_T2_DETAIL.advanced.map(function(v, i) {
+                    return { value: v, itemStyle: { color: CV_T2_DETAIL.colors[i] } };
+                }),
+                barMaxWidth: 20
+            }
+        ],
+        grid: { left: 50, right: 20, bottom: 55, top: 40 },
+        backgroundColor: 'transparent'
+    });
+    t2dChart.setOption({
+        series: [{
+            markLine: {
+                silent: true,
+                lineStyle: { color: '#aaa', type: 'dashed', width: 1 },
+                label: { formatter: 'Random (16.7%)', color: '#aaa', fontSize: 9 },
+                data: [{ yAxis: 16.7 }]
+            }
+        }]
     });
 
     // --- Vendor radar ---

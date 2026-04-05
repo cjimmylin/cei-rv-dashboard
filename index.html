@@ -92,11 +92,21 @@ body {
     padding: 16px;
     margin-bottom: 20px;
 }
+.tab-content {
+    counter-reset: fig-counter;
+}
 .chart-title {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--text-primary);
+}
+.chart-title::before {
+    counter-increment: fig-counter;
+    content: "Fig. " counter(fig-counter) " — ";
+    color: var(--accent-blue);
+    font-weight: 700;
+    font-size: 0.85rem;
 }
 table.dark-table {
     width: 100%;
@@ -328,6 +338,95 @@ table.dark-table tr:hover td {
         grid-template-columns: 1fr;
     }
 }
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.back-to-top.visible {
+    opacity: 0.85;
+}
+.back-to-top:hover {
+    opacity: 1;
+}
+@media print {
+    body {
+        background: white !important;
+        color: #111 !important;
+    }
+    .header, .nav-tabs, .exec-summary, .key-findings,
+    .tab-content, .dashboard-footer {
+        background: white !important;
+        color: #111 !important;
+        border-color: #ccc !important;
+    }
+    .tab-pane {
+        display: block !important;
+        opacity: 1 !important;
+        page-break-inside: avoid;
+    }
+    .tab-pane:not(.active) {
+        display: block !important;
+    }
+    .nav-tabs {
+        display: none !important;
+    }
+    .back-to-top {
+        display: none !important;
+    }
+    .card-stat {
+        background: #f8f8f8 !important;
+        border-color: #ddd !important;
+    }
+    .card-stat .number {
+        color: #333 !important;
+    }
+    .tab-intro {
+        background: #f0f4f8 !important;
+        border-left-color: #4C78A8 !important;
+    }
+    .chart-annotation {
+        color: #444 !important;
+        border-left-color: #ccc !important;
+    }
+    .finding-callout {
+        background: #f0f4f8 !important;
+        border-color: #4C78A8 !important;
+        color: #111 !important;
+    }
+    .finding-callout::before {
+        color: #4C78A8 !important;
+    }
+    .chart-container {
+        background: white !important;
+        border-color: #ddd !important;
+    }
+    .dashboard-footer .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    .dark-table th {
+        background: #eee !important;
+        color: #111 !important;
+    }
+    .dark-table td {
+        color: #111 !important;
+    }
+}
 @media (max-width: 768px) {
     .header h1 {
         font-size: 1.1rem;
@@ -401,6 +500,22 @@ table.dark-table tr:hover td {
             <li><span class="kf-label">Cross-Vendor Discrimination:</span> Only T2 Arabic MCQ discriminates across vendors (6.7%&ndash;100%); rubric scores show ceiling/floor effects &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-crossvendor\']').click()">Cross-Vendor tab</a></li>
             <li><span class="kf-label">Ranking Uncertainty:</span> Top 6 benchmarks robust (&ge;95% weight stability); positions 7&ndash;15 are contested (CI width = 15.87 pts) &mdash; <a class="cross-ref" onclick="document.querySelector('[href=\'#tab-sensitivity\']').click()">Sensitivity tab</a></li>
         </ul>
+        <div style="margin-top:14px; padding-top:12px; border-top: 1px solid var(--border);">
+            <table class="dark-table" style="font-size:0.78rem;">
+                <thead>
+                    <tr><th>Metric</th><th>Value</th><th>Implication</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Candidates screened</td><td><strong>401</strong></td><td>Comprehensive corpus assembly from 3 databases + citations</td></tr>
+                    <tr><td>Gate-passers</td><td><strong>47</strong> (11.7%)</td><td>88.3% attrition rate reflects gate stringency</td></tr>
+                    <tr><td>Void traditions</td><td><strong>8</strong> of 14</td><td>57% of traditions completely unrepresented</td></tr>
+                    <tr><td>Values alignment (A3)</td><td>Mean <strong>33.6</strong>/100</td><td>Most benchmarks test knowledge, not values</td></tr>
+                    <tr><td>Claims supported</td><td><strong>3</strong> of 7 (p&lt;0.05)</td><td>Field too nascent for full statistical power</td></tr>
+                    <tr><td>Cross-vendor T2 range</td><td><strong>7%–100%</strong></td><td>Only Arabic MCQ discriminates across vendors</td></tr>
+                    <tr><td>LLMs with K&lt;R&lt;V gradient</td><td><strong>4</strong> of 9</td><td>Gradient vendor-specific, not universal</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -1040,16 +1155,28 @@ table.dark-table tr:hover td {
     </div>
     
 <div class="chart-annotation">
-  <strong>Response Length by Construct Type (Log Scale):</strong> The K &lt; R &lt; V gradient — where
-  Values items elicit longer responses than Reasoning, which elicit longer than Knowledge — holds
-  for all three <strong>Claude models</strong> (V/K ratios: Opus 3.41&times;, Sonnet 3.59&times;,
-  Haiku 9.18&times;). This pattern is theoretically expected: values reasoning requires more
-  elaboration than factual recall. <strong>Codex models</strong> show a partial pattern (R &asymp; V),
-  while all four <strong>Gemini models</strong> show no gradient (V/K ratios 1.03&ndash;1.60&times;),
-  with nearly identical response lengths across all construct types — the strongest evidence for
-  template-based responding. Note the log scale: the range spans 63 characters (Gemini Flash-Lite
-  Knowledge) to 7,026 characters (Haiku Values), a 111&times; difference. The gradient indicator
-  table at right shows which models pass the K &lt; R &lt; V test together with their V/K ratio.
+  <strong>Data:</strong> The grouped bar chart shows mean response length (in characters, log scale) for
+  each of 9 models, grouped by construct type: Knowledge (teal), Reasoning (blue), Values (green).
+  The gradient indicator table at right lists each model's vendor, whether K &lt; R &lt; V holds, and
+  the V/K ratio. X-axis labels are color-coded by vendor (blue = Anthropic, orange = OpenAI, red = Gemini).
+  <br><br>
+  <strong>Analysis:</strong> The K &lt; R &lt; V gradient — where Values items elicit longer responses
+  than Reasoning, which elicit longer than Knowledge — holds for all three <strong>Claude models</strong>
+  (V/K ratios: Opus 3.41&times;, Sonnet 3.59&times;, Haiku 9.18&times;). <strong>Codex models</strong>
+  show a partial pattern (R &asymp; V at 472 vs 461 chars for full Codex). All four <strong>Gemini
+  models</strong> show no gradient (V/K ratios 1.03&ndash;1.60&times;), with nearly identical response
+  lengths across all construct types. Note the log scale: the range spans 63 characters (Gemini
+  Flash-Lite Knowledge) to 7,026 characters (Haiku Values), a 111&times; difference.
+  <br><br>
+  <strong>Interpretation:</strong> <em>Dr. Anna Kowalski (#7, Computational Linguistics)</em>: "Response
+  length is a proxy for cognitive engagement depth. Haiku's 9.18&times; V/K ratio — the steepest of any
+  model — suggests values items impose disproportionate demand on smaller models, requiring more
+  extensive generation to achieve comparable quality." <em>Dr. Priya Venkatesh (#3, Cross-Cultural
+  NLP)</em>: "The gradient may reflect Claude's RLHF calibration rather than universal cognitive demand.
+  Testing on Llama or Mistral would clarify whether this is a general property of LLMs."
+  <br><br>
+  <strong>Conclusion:</strong> The K &lt; R &lt; V gradient is a promising discriminator within the Claude
+  family but its absence in Gemini limits universality claims. Multi-vendor validation is essential.
 </div>
 
     <div class="row g-3 mb-4">
@@ -1155,6 +1282,8 @@ table.dark-table tr:hover td {
 
 </div><!-- /tab-content -->
 
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">&uarr;</button>
+
 <div class="dashboard-footer">
     <div class="footer-grid">
         <div>
@@ -1231,6 +1360,23 @@ const FAMILY_COLORS = {
     "East Asian": "#E45756",
     "African/Indigenous": "#9D9D9D",
     "Other": "#9D9D9D"
+};
+
+// Shared toolbox config for chart save/export
+var TOOLBOX = {
+    show: true,
+    feature: {
+        saveAsImage: {
+            title: 'Save as PNG',
+            pixelRatio: 2,
+            backgroundColor: '#0d1117'
+        }
+    },
+    right: 10,
+    top: 0,
+    iconStyle: {
+        borderColor: '#8b949e'
+    }
 };
 
 function familyColor(f) {
@@ -1338,7 +1484,18 @@ function renderSensitivity() {
             }
         ],
         markLine: { data: [{ xAxis: BOOT_CI.top15_cutoff }] },
-        grid: { left: 260, right: 30, top: 10, bottom: 40 },
+        grid: { left: 260, right: 30, top: 10, bottom: 50 },
+        dataZoom: [{
+            type: 'slider',
+            yAxisIndex: 0,
+            filterMode: 'none',
+            right: 0,
+            width: 16,
+            borderColor: '#30363d',
+            fillerColor: 'rgba(76,120,168,0.15)',
+            handleStyle: { color: '#4C78A8' },
+            textStyle: { color: '#8b949e' }
+        }],
         backgroundColor: 'transparent'
     });
 
@@ -1850,15 +2007,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 else if (target === 'claims') renderClaims();
                 else if (target === 'crossvendor') renderCrossvendor();
             }
-            // Resize charts on tab show (ECharts needs this)
+            // Resize charts + add toolbox on tab show (ECharts needs this)
             setTimeout(function() {
                 document.querySelectorAll('.tab-pane.active [id^="chart-"]').forEach(function(el) {
                     var chart = echarts.getInstanceByDom(el);
-                    if (chart) chart.resize();
+                    if (chart) {
+                        chart.resize();
+                        chart.setOption({ toolbox: TOOLBOX });
+                    }
                 });
-            }, 100);
+            }, 200);
         });
     });
+
+    // Add toolbox to all charts
+    setTimeout(function() {
+        document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
+            var chart = echarts.getInstanceByDom(el);
+            if (chart) chart.setOption({ toolbox: TOOLBOX });
+        });
+    }, 500);
 
     // Window resize
     window.addEventListener('resize', function() {
@@ -1866,6 +2034,16 @@ document.addEventListener('DOMContentLoaded', function() {
             var chart = echarts.getInstanceByDom(el);
             if (chart) chart.resize();
         });
+    });
+
+    // Back-to-top visibility
+    var btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
     });
 });
 </script>
